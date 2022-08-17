@@ -33,6 +33,14 @@ export default function PostDetail() {
     getPostData();
   }, [postId]);
 
+  const likesBtn = (
+    <div className="centered">
+      <Link className="btn-flat" to={'likes'}>
+        Load Likes
+      </Link>
+    </div>
+  );
+
   if (isLoading) {
     return (
       <div className="centered">
@@ -52,14 +60,8 @@ export default function PostDetail() {
   return (
     <>
       <SelectedPost text={post.body} author={post.user.handle} />
-      {location.pathname.includes('likes') ? null : (
-        <div className="centered">
-          <Link className="btn-flat" to={`likes`}>
-            Load Likes
-          </Link>
-        </div>
-      )}
-      <Outlet />
+      {location.pathname.includes("likes") ? null : likesBtn}
+      <Outlet context={post.likes}/>
     </>
   );
 }
