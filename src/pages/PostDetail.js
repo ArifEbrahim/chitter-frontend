@@ -32,19 +32,25 @@ export default function PostDetail() {
     getPostData();
   }, [postId]);
 
-  let content = <NoPostFound />;
-
-  if (post.body) {
-    content = <SelectedPost text={post.body} author={post.user.handle} />;
-  } else if (error) {
-    content = <p className="centered">{error}</p>;
-  } else if (isLoading) {
-    content = (
+  if (isLoading) {
+    return (
       <div className="centered">
         <LoadingSpinner />
       </div>
     );
   }
-  
-  return <section>{content}</section>;
+
+  if (error) {
+    return <p className="centered">{error}</p>;
+  }
+
+  if (!post.body && !isLoading) {
+    return <NoPostFound />;
+  }
+
+  return (
+    <section>
+      <SelectedPost text={post.body} author={post.user.handle} />
+    </section>
+  );
 }
