@@ -1,0 +1,33 @@
+.item {
+  margin: 1rem 0;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background-color: #c2e7f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.item:last-of-type {
+  border-bottom: none;
+}
+
+.item figure {
+  width: 70%;
+}
+
+.item blockquote {
+  text-align: left;
+  font-size: 1.5rem;
+  color: #212929;
+}
+
+.item p {
+  margin-bottom: 0.25rem;
+}
+
+.item figcaption {
+  font-style: italic;
+  color: #566d6d;
+}

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import PostList from "../components/posts/PostList";
+
 export default function AllPosts() {
   const [posts, setPosts] = useState([]);
 
@@ -18,13 +20,7 @@ export default function AllPosts() {
 
   if (posts.length > 0) {
     content = (
-      <>
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id}>{post.body}</li>
-          ))}
-        </ul>
-      </>
+      <PostList posts={posts} />
     );
   }
 
