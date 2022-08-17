@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Outlet, useNavigate } from "react-router-dom";
+import { useParams, Outlet, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 import LoadingSpinner from "../components/UI/LoadingSpinner";
@@ -10,9 +10,8 @@ export default function PostDetail() {
   const [post, setPost] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showLikes, setShowLikes] = useState(false);
 
-  const navigate = useNavigate();
+  const location = useLocation();
   const params = useParams();
   const { postId } = params;
 
@@ -34,17 +33,6 @@ export default function PostDetail() {
     getPostData();
   }, [postId]);
 
-  const showLikesHandler = () => {
-    setShowLikes(true);
-    navigate(`/posts/${postId}/likes`);
-  };
-
-  const likesBtn = (
-    <div className="centered">
-      <button className="btn-flat" onClick={showLikesHandler}>Show Likes</button>
-    </div>
-  );
-
   if (isLoading) {
     return (
       <div className="centered">
@@ -64,7 +52,13 @@ export default function PostDetail() {
   return (
     <>
       <SelectedPost text={post.body} author={post.user.handle} />
-      {showLikes ? null : likesBtn}
+      {location.pathname.includes('likes') ? null : (
+        <div className="centered">
+          <Link className="btn-flat" to={`likes`}>
+            Load Likes
+          </Link>
+        </div>
+      )}
       <Outlet />
     </>
   );

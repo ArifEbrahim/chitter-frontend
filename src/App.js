@@ -13,7 +13,7 @@ export default function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Navigate to="/posts" replace />} />
-        <Route path="posts" element={<AllPosts />} />
+        <Route path="posts" element={<AllPosts />}></Route>
         <Route path="posts/:postId" element={<PostDetail />}>
           <Route path="likes" element={<Likes />} />
         </Route>
