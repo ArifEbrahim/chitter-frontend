@@ -7,12 +7,14 @@ import NewPost from "./pages/NewPost";
 import NotFound from "./pages/NotFound";
 import PostDetail from "./pages/PostDetail";
 import Likes from "./components/likes/Likes";
+import AuthPage from './pages/AuthPage'
 
 export default function App() {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Navigate to="/posts" replace />} />
+        <Route path='auth' element={<AuthPage />} />
         <Route path="posts" element={<AllPosts />}></Route>
         <Route path="posts/:postId" element={<PostDetail />}>
           <Route path="likes" element={<Likes />} />
