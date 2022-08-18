@@ -9,6 +9,10 @@ export default function MainNavigation() {
 
   const isLoggedIn = authCtx.isLoggedIn;
 
+  const logoutHandler = () => {
+    authCtx.logout();
+  };
+
   return (
     <header className={classes.header}>
       <div className={classes.logo}>Chitter</div>
@@ -43,7 +47,9 @@ export default function MainNavigation() {
             </li>
           ) : (
             <li>
-              <button>Logout</button>
+              <button onClick={logoutHandler} className={classes.logout}>
+                Logout
+              </button>
             </li>
           )}
         </ul>

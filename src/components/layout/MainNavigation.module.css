@@ -16,6 +16,7 @@
 .nav ul {
   list-style: none;
   display: flex;
+  align-items: center;
 }
 
 .nav li {
@@ -23,7 +24,7 @@
   font-size: 1.25rem;
 }
 
-.nav a {
+.nav a, .logout {
   text-decoration: none;
   color: #88dfdf;
 }
@@ -32,4 +33,13 @@
 .nav a:active,
 .nav a.active {
   color: #e6fcfc;
+}
+
+.logout {
+  font: inherit;
+  border: 1px solid #88dfdf;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: transparent;
 }
