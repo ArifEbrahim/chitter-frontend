@@ -11,13 +11,13 @@ export default function AuthForm() {
   const passwordRef = useRef();
 
   const signUpUser = async (username, password) => {
-    const url = "https://chitter-backend-api-v2.herokuapp.com/users";
+    const usersURL = "https://chitter-backend-api-v2.herokuapp.com/users";
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    const data = {
+    const userData = {
       user: {
         handle: username,
         password,
@@ -25,7 +25,41 @@ export default function AuthForm() {
     };
 
     try {
-      const response = await axios.post(url, data, config);
+      await axios.post(usersURL, userData, config);
+
+      const sessionsURL =
+        "https://chitter-backend-api-v2.herokuapp.com/sessions";
+      const sessionData = {
+        session: {
+          handle: username,
+          password,
+        },
+      };
+      const response = await axios.post(sessionsURL, sessionData, config);
+      const { session_key } = response.data;
+    } catch (error) {
+      const { handle: errorMessage } = error.response.data;
+      setError(`Username ${errorMessage}, please try again`);
+    }
+  };
+
+  const loginUser = async (username, password) => {
+    const sessionsURL = "https://chitter-backend-api-v2.herokuapp.com/sessions";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const sessionData = {
+      session: {
+        handle: username,
+        password,
+      },
+    };
+    try {
+      const response = await axios.post(sessionsURL, sessionData, config);
+      const { session_key } = response.data;
+      console.log(session_key);
     } catch (error) {
       const { handle: errorMessage } = error.response.data;
       setError(`Username ${errorMessage}, please try again`);
@@ -40,6 +74,7 @@ export default function AuthForm() {
     const enteredPassword = passwordRef.current.value;
 
     if (isLogin) {
+      loginUser(enteredUsername, enteredPassword);
     } else {
       signUpUser(enteredUsername, enteredPassword);
     }
