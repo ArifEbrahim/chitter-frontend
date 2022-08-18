@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import classes from "./MainNavigation.module.css";
+import AuthContext from "../store/auth-context";
 
 export default function MainNavigation() {
+  const authCtx = useContext(AuthContext);
+
+  const isLoggedIn = authCtx.isLoggedIn;
+
   return (
     <header className={classes.header}>
       <div className={classes.logo}>Chitter</div>
@@ -17,14 +22,30 @@ export default function MainNavigation() {
               All posts
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/new-post"
-              className={({ isActive }) => (isActive ? classes.active : "")}
-            >
-              Add a post
-            </NavLink>
-          </li>
+          {isLoggedIn && (
+            <li>
+              <NavLink
+                to="/new-post"
+                className={({ isActive }) => (isActive ? classes.active : "")}
+              >
+                Add a post
+              </NavLink>
+            </li>
+          )}
+          {!isLoggedIn ? (
+            <li>
+              <NavLink
+                to="/auth"
+                className={({ isActive }) => (isActive ? classes.active : "")}
+              >
+                Login
+              </NavLink>
+            </li>
+          ) : (
+            <li>
+              <button>Logout</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

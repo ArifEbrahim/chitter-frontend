@@ -1,14 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 import Card from "../UI/Card";
 import axios from "axios";
+import AuthContext from "../store/auth-context";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(null);
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
 
   const signUpUser = async (username, password) => {
     const usersURL = "https://chitter-backend-api-v2.herokuapp.com/users";
@@ -26,17 +30,6 @@ export default function AuthForm() {
 
     try {
       await axios.post(usersURL, userData, config);
-
-      const sessionsURL =
-        "https://chitter-backend-api-v2.herokuapp.com/sessions";
-      const sessionData = {
-        session: {
-          handle: username,
-          password,
-        },
-      };
-      const response = await axios.post(sessionsURL, sessionData, config);
-      const { session_key } = response.data;
     } catch (error) {
       const { handle: errorMessage } = error.response.data;
       setError(`Username ${errorMessage}, please try again`);
@@ -59,10 +52,11 @@ export default function AuthForm() {
     try {
       const response = await axios.post(sessionsURL, sessionData, config);
       const { session_key } = response.data;
-      console.log(session_key);
+      authCtx.login(session_key);
+      navigate("/posts");
     } catch (error) {
       const { handle: errorMessage } = error.response.data;
-      setError(`Username ${errorMessage}, please try again`);
+      setError(errorMessage);
     }
   };
 
@@ -77,6 +71,7 @@ export default function AuthForm() {
       loginUser(enteredUsername, enteredPassword);
     } else {
       signUpUser(enteredUsername, enteredPassword);
+      loginUser(enteredUsername, enteredPassword);
     }
   };
 
