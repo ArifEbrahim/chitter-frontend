@@ -5,9 +5,11 @@ import classes from "./AuthForm.module.css";
 import Card from "../UI/Card";
 import axios from "axios";
 import AuthContext from "../store/auth-context";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const usernameRef = useRef();
   const passwordRef = useRef();
@@ -53,6 +55,7 @@ export default function AuthForm() {
       const response = await axios.post(sessionsURL, sessionData, config);
       const { session_key, user_id } = response.data;
       authCtx.login(session_key, user_id, username);
+      setIsLoading(false);
       navigate("/posts");
     } catch (error) {
       const { handle: errorMessage } = error.response.data;
@@ -62,6 +65,7 @@ export default function AuthForm() {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     setError(null);
 
     const enteredUsername = usernameRef.current.value;
@@ -78,6 +82,14 @@ export default function AuthForm() {
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
+
+  if (isLoading) {
+    return (
+      <div className="centered">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <Card>
