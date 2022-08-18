@@ -1,4 +1,4 @@
-.noposts {
+.nocontent {
   height: 20rem;
   margin: auto;
   display: flex;
@@ -7,9 +7,8 @@
   align-items: center;
 }
 
-.noposts p {
+.nocontent p {
   color: #262c2c;
   font-size: 3rem;
   font-weight: bold;
 }
-

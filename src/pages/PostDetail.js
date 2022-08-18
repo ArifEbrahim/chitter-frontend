@@ -3,7 +3,7 @@ import { useParams, Outlet, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 import LoadingSpinner from "../components/UI/LoadingSpinner";
-import NoPostFound from "../components/posts/NoPostFound";
+import NotFound from "../components/UI/NotFound";
 import SelectedPost from "../components/posts/SelectedPost";
 
 export default function PostDetail() {
@@ -54,7 +54,7 @@ export default function PostDetail() {
   }
 
   if (!post.body && !isLoading) {
-    return <NoPostFound />;
+    return <NotFound text='post' />
   }
 
   return (

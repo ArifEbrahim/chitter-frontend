@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import PostList from "../components/posts/PostList";
-import NoPostFound from "../components/posts/NoPostFound";
+import NotFound from "../components/UI/NotFound";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 
 export default function AllPosts() {
@@ -28,7 +28,7 @@ export default function AllPosts() {
     getPostData();
   }, []);
 
-  let content = <NoPostFound />;
+  let content = <NotFound text='post' />;
 
   if (posts.length > 0 && !isLoading) {
     content = <PostList posts={posts} />;
