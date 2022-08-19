@@ -6,6 +6,7 @@ import useHttp from "../components/hooks/use-http";
 import { addPost, getAllPosts } from "../lib/api";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import PostList from "../components/posts/PostList";
+import Button from "../components/UI/Button";
 
 export default function MainPage() {
   const [showPostForm, setShowPostForm] = useState(false);
@@ -45,18 +46,14 @@ export default function MainPage() {
     <>
       {isLoggedIn && !showPostForm && (
         <div className="centered">
-          <button onClick={showFormHandler} className="btn">
-            New Post
-          </button>
+          <Button onClick={showFormHandler} text="New Post" className="btn" />
         </div>
       )}
       {isLoggedIn && showPostForm && (
         <PostForm onAddPost={addPostHandler} onCancel={showFormHandler} />
       )}
       {status === "pending" ? (
-        <div className="centered">
-          <LoadingSpinner />
-        </div>
+        <LoadingSpinner />
       ) : (
         <PostList posts={loadedPosts} getPosts={getPosts} />
       )}

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import classes from "./PostItem.module.css";
 import AuthContext from "../store/auth-context";
+import Button from "../UI/Button";
 
 export default function PostItem(props) {
   const authCtx = useContext(AuthContext);
@@ -21,9 +22,7 @@ export default function PostItem(props) {
       </figure>
       <div className={classes.actions}>
         {parseInt(userId) === parseInt(props.authorId) && isLoggedIn && (
-          <button className={classes.delete} onClick={deleteBtnHandler}>
-            Delete
-          </button>
+          <Button className='btn-delete' onClick={deleteBtnHandler} text='Delete' />
         )}
       </div>
     </li>

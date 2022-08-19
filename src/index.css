@@ -20,9 +20,9 @@ body {
   background-color: teal;
   color: white;
   border-radius: 5px;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.2rem;
   border: 1px solid teal;
-  font: inherit
+  font: inherit;
 }
 
 .btn:hover,
@@ -31,13 +31,13 @@ body {
   border-color: #11acac;
 }
 
-.btn-flat {
+.btn-delete {
   cursor: pointer;
-  font: inherit;
-  color: teal;
-  border: none;
-  background-color: transparent;
   text-decoration: none;
-  margin: 0.5rem 0;
+  background-color: crimson;
+  color: white;
   border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid teal;
+  font: inherit;
 }
