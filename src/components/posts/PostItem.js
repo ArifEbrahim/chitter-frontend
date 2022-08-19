@@ -2,20 +2,13 @@ import React, { useContext } from "react";
 
 import classes from "./PostItem.module.css";
 import AuthContext from "../store/auth-context";
-import useHttp from "../hooks/use-http";
-import { deletePost } from "../../lib/api";
 
 export default function PostItem(props) {
   const authCtx = useContext(AuthContext);
-  const { token, userId, isLoggedIn } = authCtx;
-  const { sendRequest } = useHttp(deletePost);
+  const { userId, isLoggedIn } = authCtx;
 
-  const deletePostHAndler = () => {
-    const postData = {
-      postId: props.id,
-      token,
-    };
-    sendRequest(postData);
+  const deleteBtnHandler = () => {
+    props.onDelete(props.id);
   };
 
   return (
@@ -27,7 +20,11 @@ export default function PostItem(props) {
         <figcaption>{props.author}</figcaption>
       </figure>
       <div className={classes.actions}>
-        {parseInt(userId) === parseInt(props.authorId) && isLoggedIn && <button className={classes.delete} onClick={deletePostHAndler}>Delete</button>}
+        {parseInt(userId) === parseInt(props.authorId) && isLoggedIn && (
+          <button className={classes.delete} onClick={deleteBtnHandler}>
+            Delete
+          </button>
+        )}
       </div>
     </li>
   );

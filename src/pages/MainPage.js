@@ -11,18 +11,18 @@ export default function MainPage() {
   const [showPostForm, setShowPostForm] = useState(false);
   const authCtx = useContext(AuthContext);
   const { token, userId } = authCtx;
-  const { sendRequest: newPostRequest } = useHttp(addPost);
+  const { sendRequest: createPost } = useHttp(addPost);
   const {
     data: loadedPosts,
     status,
-    sendRequest: getPostsRequest,
+    sendRequest: getPosts,
   } = useHttp(getAllPosts, true);
 
   useEffect(() => {
-    getPostsRequest();
-  }, [getPostsRequest]);
+    getPosts();
+  }, [getPosts]);
 
-  const addPostHandler = (postText) => {
+  const addPostHandler = async (postText) => {
     const postData = {
       peepData: {
         peep: {
@@ -32,8 +32,8 @@ export default function MainPage() {
       },
       token,
     };
-    newPostRequest(postData);
-    getPostsRequest();
+    await createPost(postData);
+    await getPosts();
     setShowPostForm((prevState) => !prevState);
   };
 
@@ -57,7 +57,7 @@ export default function MainPage() {
           <LoadingSpinner />
         </div>
       ) : (
-        <PostList posts={loadedPosts} />
+        <PostList posts={loadedPosts} getPosts={getPosts}/>
       )}
     </>
   );
