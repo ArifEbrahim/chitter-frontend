@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 import classes from "./PostItem.module.css";
 import AuthContext from "../store/auth-context";
@@ -12,7 +13,15 @@ export default function PostItem(props) {
     props.onDelete(props.id);
   };
 
+  const likeHandler = () => {
+    props.onLike(props.id)
+  }
+
   const likedUsers = props.likes.map((data) => data.user.handle);
+
+  const likedByCurrentUser = props.likes.find(
+    (user) => parseInt(user.user.id) === parseInt(userId)
+  );
 
   return (
     <li className={classes.item}>
@@ -31,6 +40,13 @@ export default function PostItem(props) {
             text="Delete"
           />
         )}
+        <div className={classes.icon} onClick={likeHandler}>
+          {likedByCurrentUser ? (
+            <BsHeartFill size="1.5em" color="red" />
+          ) : (
+            <BsHeart size="1.5em" color="darkgrey" />
+          )}
+        </div>
       </div>
     </li>
   );

@@ -21,12 +21,23 @@
   text-align: left;
   font-size: 1.5rem;
   color: #212929;
+}
 
+.actions{
+  display: flex;
+  align-items: center;
 }
 
 .likes {
   font-style: italic;
   color: #566d6d;
+}
+
+.icon{
+  margin-left: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .item figcaption {
