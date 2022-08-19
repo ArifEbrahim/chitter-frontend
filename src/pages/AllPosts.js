@@ -7,14 +7,13 @@ import useHttp from "../components/hooks/use-http";
 import { getAllPosts } from "../lib/api";
 
 export default function AllPosts() {
-  const { data, isLoading, error, sendRequest } = useHttp(getAllPosts);
-  console.log(data)
+  const { data: loadedPosts, status, error, sendRequest } = useHttp(getAllPosts, true);
 
   useEffect(() => {
     sendRequest();
   }, [sendRequest]);
 
-  if (isLoading) {
+  if (status==='pending') {
     return (
       <div className="centered">
         <LoadingSpinner />
@@ -26,9 +25,9 @@ export default function AllPosts() {
     <p className="centered">{error}</p>;
   }
 
-  if (!isLoading && (!data || data.length === 0)) {
+  if (status === 'completed' && (!loadedPosts || loadedPosts.length === 0)) {
     <NotFound text="posts" />;
   }
 
-  return <PostList posts={data} />;
+  return <PostList posts={loadedPosts} />;
 }
