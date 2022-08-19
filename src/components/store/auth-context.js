@@ -4,27 +4,30 @@ const AuthContext = createContext({
   token: "",
   userId: "",
   isLoggedIn: false,
-  login: (token) => {},
+  login: (token, userId) => {},
   logout: () => {},
 });
 
 export const AuthContextProvider = (props) => {
   const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState(initialToken);
-  const [userId, setUserId] = useState(null);
+  const initialUser = localStorage.getItem("user");
+  const [userId, setUserId] = useState(initialUser);
 
   const isLoggedIn = !!token;
 
-  const loginHandler = (token, userId, username) => {
+  const loginHandler = (token, userId) => {
     setToken(token);
     setUserId(userId);
     localStorage.setItem("token", token);
+    localStorage.setItem("user", userId);
   };
 
   const logoutHandler = () => {
     setToken(null);
     setUserId(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   const contextValue = {

@@ -28,10 +28,10 @@ export default function PostForm(props) {
       <Card>
         <form onSubmit={submitHandler} className={classes.form}>
           <div className={classes.control}>
-            <label html="text">Text</label>
-            <textarea id="text" rows="5" ref={textRef}></textarea>
+            <textarea id="text" rows="5" ref={textRef} placeholder="What's on your mind?"></textarea>
           </div>
           <div className={classes.actions}>
+            <button className="btn-flat" onClick={props.onCancel}>Cancel</button>
             <button className="btn">Add Post</button>
           </div>
         </form>

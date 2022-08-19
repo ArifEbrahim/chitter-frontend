@@ -54,7 +54,7 @@ export default function AuthForm() {
     try {
       const response = await axios.post(sessionsURL, sessionData, config);
       const { session_key, user_id } = response.data;
-      authCtx.login(session_key, user_id, username);
+      authCtx.login(session_key, user_id);
       setIsLoading(false);
       navigate("/posts");
     } catch (error) {
