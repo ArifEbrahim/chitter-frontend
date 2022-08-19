@@ -46,3 +46,15 @@ export async function likePost(postData) {
     },
   })
 }
+
+export async function unlikePost(postData) {
+  const {token, postId, userId} = postData;
+
+  await axios({
+    url: `${CHITTER_API}/peeps/${postId}/likes/${userId}`,
+    method: 'delete',
+    headers: {
+      Authorization: `Token token=${token}`,
+    },
+  })
+}

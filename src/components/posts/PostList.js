@@ -4,13 +4,14 @@ import PostItem from "./PostItem";
 import classes from "./PostList.module.css";
 import AuthContext from "../store/auth-context";
 import useHttp from "../hooks/use-http";
-import { deletePost, likePost } from "../../lib/api";
+import { deletePost, likePost, unlikePost } from "../../lib/api";
 
 export default function PostList(props) {
   const authCtx = useContext(AuthContext);
   const { token, userId } = authCtx;
   const { sendRequest: deletePostReq } = useHttp(deletePost);
   const { sendRequest: likePostReq } = useHttp(likePost);
+  const { sendRequest: unlikePostReq } = useHttp(unlikePost);
 
   const { posts } = props;
 
@@ -30,8 +31,17 @@ export default function PostList(props) {
       userId,
     };
     await likePostReq(postData);
-    await props.getPosts();
+    // await props.getPosts();
   };
+
+  const unlikePostHandler = async (postId) => {
+    const postData = {
+      token,
+      postId,
+      userId,
+    };
+    await unlikePostReq(postData);
+  }
 
   return (
     <ul className={classes.list}>
@@ -45,6 +55,7 @@ export default function PostList(props) {
           onDelete={deletePostHandler}
           likes={post.likes}
           onLike={likePostHandler}
+          onUnlike={unlikePostHandler}
         />
       ))}
     </ul>

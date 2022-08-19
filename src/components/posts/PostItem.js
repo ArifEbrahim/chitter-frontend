@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 import classes from "./PostItem.module.css";
@@ -6,22 +6,49 @@ import AuthContext from "../store/auth-context";
 import Button from "../UI/Button";
 
 export default function PostItem(props) {
+  const [isPostLiked, setIsPostLiked] = useState(false);
+  const [likedUsers, setLikedUsers] = useState([]);
   const authCtx = useContext(AuthContext);
-  const { userId, isLoggedIn } = authCtx;
+  const { userId, isLoggedIn, username } = authCtx;
+  const { likes } = props;
+
+  useEffect(() => {
+    const likedUsersAry = likes.map((data) => data.user.handle);
+    if (likedUsersAry.includes(username)) {
+      setIsPostLiked(true);
+      const updatedLikedUsersAry = likedUsersAry.filter(
+        (user) => user !== username
+      );
+      updatedLikedUsersAry.unshift("You");
+      setLikedUsers(updatedLikedUsersAry);
+    } else {
+      setLikedUsers(likedUsersAry);
+    }
+  }, [likes, userId, username]);
 
   const deleteBtnHandler = () => {
     props.onDelete(props.id);
   };
 
   const likeHandler = () => {
-    props.onLike(props.id)
-  }
+    setIsPostLiked(true);
+    // if (isPostLiked) {
 
-  const likedUsers = props.likes.map((data) => data.user.handle);
+    //   // props.onUnlike(props.id);
+    // } else {
+    // setLikedUsers((prevUsers) => {
+    //   prevUsers.unshift("You");
+    // });
+    //   // props.onLIke(props.id);
+    // }
+  };
 
-  const likedByCurrentUser = props.likes.find(
-    (user) => parseInt(user.user.id) === parseInt(userId)
-  );
+  const unlikeHandler = () => {
+    setIsPostLiked(false);
+    // setLikedUsers((prevUsers) => {
+    //   prevUsers.filter((user) => user !== "You");
+    // });
+  };
 
   return (
     <li className={classes.item}>
@@ -40,11 +67,16 @@ export default function PostItem(props) {
             text="Delete"
           />
         )}
-        <div className={classes.icon} onClick={likeHandler}>
-          {likedByCurrentUser ? (
-            <BsHeartFill size="1.5em" color="red" />
-          ) : (
-            <BsHeart size="1.5em" color="darkgrey" />
+        <div className={classes.icon}>
+          {isPostLiked && isLoggedIn && (
+            <div onClick={unlikeHandler}>
+              <BsHeartFill size="1.5em" color="red" />
+            </div>
+          )}
+          {!isPostLiked && isLoggedIn && (
+            <div onClick={likeHandler}>
+              <BsHeart size="1.5em" color="darkgrey" />
+            </div>
           )}
         </div>
       </div>

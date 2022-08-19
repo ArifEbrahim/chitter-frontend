@@ -41,3 +41,14 @@ body {
   border: 1px solid teal;
   font: inherit;
 }
+
+.btn-flat {
+  cursor: pointer;
+  font: inherit;
+  color: teal;
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+}

@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 const AuthContext = createContext({
   token: "",
   userId: "",
+  username: "",
   isLoggedIn: false,
   login: (token, userId) => {},
   logout: () => {},
@@ -11,28 +12,35 @@ const AuthContext = createContext({
 export const AuthContextProvider = (props) => {
   const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState(initialToken);
-  const initialUser = localStorage.getItem("user");
-  const [userId, setUserId] = useState(initialUser);
+  const initialUserId = localStorage.getItem("userId");
+  const [userId, setUserId] = useState(initialUserId);
+  const initialUsername = localStorage.getItem("username");
+  const [username, setUsername] = useState(initialUsername);
 
   const isLoggedIn = !!token;
 
-  const loginHandler = (token, userId) => {
+  const loginHandler = (token, userId, username) => {
     setToken(token);
     setUserId(userId);
+    setUsername(username);
     localStorage.setItem("token", token);
-    localStorage.setItem("user", userId);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("username", username);
   };
 
   const logoutHandler = () => {
     setToken(null);
     setUserId(null);
+    setUsername(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("username");
   };
 
   const contextValue = {
     token,
     userId,
+    username,
     isLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
