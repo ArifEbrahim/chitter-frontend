@@ -10,7 +10,7 @@ import PostList from "../components/posts/PostList";
 export default function MainPage() {
   const [showPostForm, setShowPostForm] = useState(false);
   const authCtx = useContext(AuthContext);
-  const { token, userId } = authCtx;
+  const { token, userId, isLoggedIn } = authCtx;
   const { sendRequest: createPost } = useHttp(addPost);
   const {
     data: loadedPosts,
@@ -43,21 +43,22 @@ export default function MainPage() {
 
   return (
     <>
-      {showPostForm ? (
-        <PostForm onAddPost={addPostHandler} onCancel={showFormHandler} />
-      ) : (
+      {isLoggedIn && !showPostForm && (
         <div className="centered">
           <button onClick={showFormHandler} className="btn">
             New Post
           </button>
         </div>
       )}
+      {isLoggedIn && showPostForm && (
+        <PostForm onAddPost={addPostHandler} onCancel={showFormHandler} />
+      )}
       {status === "pending" ? (
         <div className="centered">
           <LoadingSpinner />
         </div>
       ) : (
-        <PostList posts={loadedPosts} getPosts={getPosts}/>
+        <PostList posts={loadedPosts} getPosts={getPosts} />
       )}
     </>
   );
