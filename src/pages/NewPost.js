@@ -1,40 +1,37 @@
-import React, { useContext, useState } from "react";
-import axios from "axios";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import PostForm from "../components/posts/PostForm";
 import AuthContext from "../components/store/auth-context";
+import useHttp from "../components/hooks/use-http";
+import { addPost } from "../lib/api";
 
 export default function NewPost() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const { token, userId } = authCtx;
+  const { sendRequest, status } = useHttp(addPost);
 
-  const addPostHandler = async (text) => {
-    setIsLoading(true);
-    const url = "https://chitter-backend-api-v2.herokuapp.com/peeps";
-    const config = {
-      headers: {
-        Authorization: `Token token=${token}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const data = {
-      peep: {
-        user_id: userId,
-        body: text,
-      },
-    };
-
-    try {
-      await axios.post(url, data, config);
-      setIsLoading(false);
+  useEffect(() => {
+    if (status === "completed") {
       navigate("/posts");
-    } catch (error) {
-      console.log(error);
     }
+  }, [status, navigate]);
+
+  const addPostHandler = (postText) => {
+    const postData = {
+      peepData: {
+        peep: {
+          user_id: userId,
+          body: postText,
+        },
+      },
+      token,
+    };
+    sendRequest(postData);
   };
 
-  return <PostForm onAddPost={addPostHandler} isLoading={isLoading}/>;
+  return (
+    <PostForm onAddPost={addPostHandler} isLoading={status === "pending"} />
+  );
 }
