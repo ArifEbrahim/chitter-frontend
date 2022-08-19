@@ -25,16 +25,20 @@ export default function MainPage() {
     setShowPostForm((prevState) => !prevState);
   };
 
-  const showFormHAndler = () => {
+  const showFormHandler = () => {
     setShowPostForm((prevState) => !prevState);
   };
 
   return (
     <>
       {showPostForm ? (
-        <PostForm onAddPost={addPostHandler} onCancel={showFormHAndler} />
+        <PostForm onAddPost={addPostHandler} onCancel={showFormHandler} />
       ) : (
-        <button onClick={showFormHAndler} className="btn">New Post</button>
+        <div className="centered">
+          <button onClick={showFormHandler} className="btn">
+            New Post
+          </button>
+        </div>
       )}
     </>
   );
