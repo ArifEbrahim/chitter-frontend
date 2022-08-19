@@ -32,6 +32,7 @@ export default function PostList(props) {
           author={post.user.handle}
           authorId={post.user.id}
           onDelete={deletePostHandler}
+          likes={post.likes}
         />
       ))}
     </ul>

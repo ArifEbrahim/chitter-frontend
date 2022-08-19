@@ -12,6 +12,8 @@ export default function PostItem(props) {
     props.onDelete(props.id);
   };
 
+  const likedUsers = props.likes.map((data) => data.user.handle);
+
   return (
     <li className={classes.item}>
       <figure>
@@ -19,10 +21,15 @@ export default function PostItem(props) {
           <p>{props.text}</p>
         </blockquote>
         <figcaption>{props.author}</figcaption>
+        <p className={classes.likes}>Likes: {likedUsers.join(", ")}</p>
       </figure>
       <div className={classes.actions}>
         {parseInt(userId) === parseInt(props.authorId) && isLoggedIn && (
-          <Button className='btn-delete' onClick={deleteBtnHandler} text='Delete' />
+          <Button
+            className="btn-delete"
+            onClick={deleteBtnHandler}
+            text="Delete"
+          />
         )}
       </div>
     </li>
