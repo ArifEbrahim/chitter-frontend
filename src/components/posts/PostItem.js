@@ -1,9 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 
-import classes from './PostItem.module.css'
+import classes from "./PostItem.module.css";
+import AuthContext from "../store/auth-context";
+import useHttp from "../hooks/use-http";
+import { deletePost } from "../../lib/api";
 
 export default function PostItem(props) {
+  const authCtx = useContext(AuthContext);
+  const { token, userId, isLoggedIn } = authCtx;
+  const { sendRequest } = useHttp(deletePost);
+
+  const deletePostHAndler = () => {
+    const postData = {
+      postId: props.id,
+      token,
+    };
+    sendRequest(postData);
+  };
+
   return (
     <li className={classes.item}>
       <figure>
@@ -12,8 +26,9 @@ export default function PostItem(props) {
         </blockquote>
         <figcaption>{props.author}</figcaption>
       </figure>
-      <Link className="btn" to={`/posts/${props.id}`}>View
-      </Link>
+      <div className={classes.actions}>
+        {parseInt(userId) === parseInt(props.authorId) && isLoggedIn && <button className={classes.delete} onClick={deletePostHAndler}>Delete</button>}
+      </div>
     </li>
   );
 }

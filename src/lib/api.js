@@ -18,8 +18,19 @@ const {peepData, token} = postData;
     method: "post",
     headers: {
       Authorization: `Token token=${token}`,
-      "Content-Type": "application/json",
     },
     data: peepData,
   });
+}
+
+export async function deletePost(postData) {
+  const {token, postId} = postData;
+
+  await axios({
+    url: `${CHITTER_API}/peeps/${postId}`,
+    method: 'delete',
+    headers: {
+      Authorization: `Token token=${token}`,
+    },
+  })
 }
