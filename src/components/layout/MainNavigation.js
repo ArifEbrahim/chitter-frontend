@@ -26,16 +26,6 @@ export default function MainNavigation() {
               All posts
             </NavLink>
           </li>
-          {isLoggedIn && (
-            <li>
-              <NavLink
-                to="/new-post"
-                className={({ isActive }) => (isActive ? classes.active : "")}
-              >
-                Add a post
-              </NavLink>
-            </li>
-          )}
           {!isLoggedIn ? (
             <li>
               <NavLink

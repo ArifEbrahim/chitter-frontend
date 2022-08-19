@@ -6,7 +6,7 @@
   background-color: #c2e7f0;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .item:last-of-type {
@@ -30,4 +30,19 @@
 .item figcaption {
   font-style: italic;
   color: #566d6d;
+}
+
+/* .actions {
+  font: inherit
+} */
+
+.actions .delete {
+  cursor: pointer;
+  text-decoration: none;
+  background-color: crimson;
+  color: white;
+  border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid teal;
+  font: inherit
 }

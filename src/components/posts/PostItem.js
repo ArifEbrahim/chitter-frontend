@@ -1,9 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 
-import classes from './PostItem.module.css'
+import classes from "./PostItem.module.css";
+import AuthContext from "../store/auth-context";
 
 export default function PostItem(props) {
+  const authCtx = useContext(AuthContext);
+  const { userId, isLoggedIn } = authCtx;
+
+  const deleteBtnHandler = () => {
+    props.onDelete(props.id);
+  };
+
   return (
     <li className={classes.item}>
       <figure>
@@ -12,8 +19,13 @@ export default function PostItem(props) {
         </blockquote>
         <figcaption>{props.author}</figcaption>
       </figure>
-      <Link className="btn" to={`/posts/${props.id}`}>View
-      </Link>
+      <div className={classes.actions}>
+        {parseInt(userId) === parseInt(props.authorId) && isLoggedIn && (
+          <button className={classes.delete} onClick={deleteBtnHandler}>
+            Delete
+          </button>
+        )}
+      </div>
     </li>
   );
 }
