@@ -12,7 +12,7 @@ export async function getSinglePost(postId) {
 }
 
 export async function addPost(postData) {
-const {peepData, token} = postData;
+  const { peepData, token } = postData;
   await axios({
     url: `${CHITTER_API}/peeps`,
     method: "post",
@@ -24,37 +24,56 @@ const {peepData, token} = postData;
 }
 
 export async function deletePost(postData) {
-  const {token, postId} = postData;
-
+  const { token, postId } = postData;
   await axios({
     url: `${CHITTER_API}/peeps/${postId}`,
-    method: 'delete',
+    method: "delete",
     headers: {
       Authorization: `Token token=${token}`,
     },
-  })
+  });
 }
 
 export async function likePost(postData) {
-  const {token, postId, userId} = postData;
-
+  const { token, postId, userId } = postData;
   await axios({
     url: `${CHITTER_API}/peeps/${postId}/likes/${userId}`,
-    method: 'put',
+    method: "put",
     headers: {
       Authorization: `Token token=${token}`,
     },
-  })
+  });
 }
 
 export async function unlikePost(postData) {
-  const {token, postId, userId} = postData;
-
+  const { token, postId, userId } = postData;
   await axios({
     url: `${CHITTER_API}/peeps/${postId}/likes/${userId}`,
-    method: 'delete',
+    method: "delete",
     headers: {
       Authorization: `Token token=${token}`,
     },
-  })
+  });
+}
+
+export async function loginUser(userData) {
+  const response = await axios({
+    url: `${CHITTER_API}/sessions`,
+    method: "post",
+    data: {
+      session: userData,
+    },
+  });
+  return response.data;
+}
+
+export async function signUpUser(userData) {
+  const response = await axios({
+    url: `${CHITTER_API}/users`,
+    method: "post",
+    data: {
+      user: userData,
+    },
+  });
+  return response.data;
 }

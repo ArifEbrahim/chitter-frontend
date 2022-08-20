@@ -3,79 +3,67 @@ import { useNavigate } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 import Card from "../UI/Card";
-import axios from "axios";
 import AuthContext from "../store/auth-context";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import useHttp from "../hooks/use-http";
+import { signUpUser, loginUser } from "../../lib/api";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const {
+    data: loginData,
+    status: loginStatus,
+    sendRequest: loginUserReq,
+  } = useHttp(loginUser);
   const usernameRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
 
-  const signUpUser = async (username, password) => {
-    const usersURL = "https://chitter-backend-api-v2.herokuapp.com/users";
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const userData = {
-      user: {
-        handle: username,
-        password,
-      },
-    };
+  // const signUpUser = async (username, password) => {
+  //   const usersURL = "https://chitter-backend-api-v2.herokuapp.com/users";
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   const userData = {
+  //     user: {
+  //       handle: username,
+  //       password,
+  //     },
+  //   };
 
-    try {
-      await axios.post(usersURL, userData, config);
-    } catch (error) {
-      const { handle: errorMessage } = error.response.data;
-      setError(`Username ${errorMessage}, please try again`);
-    }
+  //   try {
+  //     await axios.post(usersURL, userData, config);
+  //   } catch (error) {
+  //     const { handle: errorMessage } = error.response.data;
+  //     setError(`Username ${errorMessage}, please try again`);
+  //   }
+  // };
+
+  const loginHandler = async (userData) => {
+    await loginUserReq(userData)
+    console.log(loginData)
+    const { session_key, user_id } = loginData;
+    authCtx.login(session_key, user_id, userData.handle);
+
+    navigate("/posts");
   };
 
-  const loginUser = async (username, password) => {
-    const sessionsURL = "https://chitter-backend-api-v2.herokuapp.com/sessions";
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const sessionData = {
-      session: {
-        handle: username,
-        password,
-      },
-    };
-    try {
-      const response = await axios.post(sessionsURL, sessionData, config);
-      const { session_key, user_id } = response.data;
-      authCtx.login(session_key, user_id, username);
-      setIsLoading(false);
-      navigate("/posts");
-    } catch (error) {
-      const { handle: errorMessage } = error.response.data;
-      setError(errorMessage);
-    }
-  };
-
-  const submitHandler = (event) => {
+  const submitHandler = async(event) => {
     event.preventDefault();
-    setIsLoading(true);
-    setError(null);
 
-    const enteredUsername = usernameRef.current.value;
-    const enteredPassword = passwordRef.current.value;
+    const userData = {
+      handle: usernameRef.current.value,
+      password: passwordRef.current.value,
+    };
 
     if (isLogin) {
-      loginUser(enteredUsername, enteredPassword);
+      await loginHandler(userData);
     } else {
-      signUpUser(enteredUsername, enteredPassword);
-      loginUser(enteredUsername, enteredPassword);
+      signUpUser(userData);
+      loginHandler(userData);
     }
   };
 
@@ -83,12 +71,8 @@ export default function AuthForm() {
     setIsLogin((prevState) => !prevState);
   };
 
-  if (isLoading) {
-    return (
-      <div className="centered">
-        <LoadingSpinner />
-      </div>
-    );
+  if (loginStatus === 'pending') {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -103,7 +87,7 @@ export default function AuthForm() {
           <label html="password">Password</label>
           <input type="password" id="password" required ref={passwordRef} />
         </div>
-        {error && <p className={classes.error}>{error}</p>}
+        {/* {error && <p className={classes.error}>{error}</p>} */}
         <div className={classes.actions}>
           <button className="btn">{isLogin ? "Login" : "Sign Up"}</button>
           <button
