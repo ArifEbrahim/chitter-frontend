@@ -63,6 +63,8 @@ I want to unlike a peep
 - Users can like a post by clicking the heart icon next to a post
 - Users can only like a post once
 - Clicking the heart icon again will result in the user unliking the post
+- If the user likes a post, their name is removed from the like list and 'You' is inserted at the beginning of the list
+- If the user is not logged in then their username appears as normal in the list of likes
 
 **Unliking posts**
 - Intuitively implemented as on/off or like/unlike
