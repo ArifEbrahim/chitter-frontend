@@ -42,6 +42,12 @@ body {
   font: inherit;
 }
 
+.btn-delete:hover,
+.btn-delete:active {
+  background-color: rgb(222, 87, 114);
+  border-color: rgb(222, 87, 114);;
+}
+
 .btn-flat {
   cursor: pointer;
   font: inherit;
