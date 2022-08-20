@@ -56,7 +56,8 @@ I want to unlike a peep
 **Deleting posts**
 - Users can delete their own posts
 - This functionality is only enabled once they are logged in otherwise the delete button does not appear
-![demo-1](https://user-images.githubusercontent.com/74261924/185744472-ed42dbde-42fe-4958-94b0-a3f6325ff7c1.gif)
+![demo1](https://user-images.githubusercontent.com/74261924/185744584-99fe2c00-d995-463a-86d8-618cf8eaf5bb.gif)
+
 
 **Liking posts**
 - Users can like a post by clicking the heart icon next to a post
@@ -66,7 +67,8 @@ I want to unlike a peep
 **Unliking posts**
 - Intuitively implemented as on/off or like/unlike
 - Visual feedback given to the user as an empty heart when unliked or a red heart when liked
-![demo-2](https://user-images.githubusercontent.com/74261924/185744479-7a83aca9-55f1-4eac-8ed3-14e96b4daf8d.gif)
+![demo-2](https://user-images.githubusercontent.com/74261924/185744591-5d80671f-3204-4786-b5c1-25ec95d13d82.gif)
+
 
 **Misc**
 - Custom hook used to reuse the http logic so that API requests are more stremlined and DRY
