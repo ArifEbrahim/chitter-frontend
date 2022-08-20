@@ -55,6 +55,7 @@ export default function PostList(props) {
           likes={post.likes}
           onLike={likePostHandler}
           onUnlike={unlikePostHandler}
+          createdAt={post.created_at}
         />
       ))}
     </ul>

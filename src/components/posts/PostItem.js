@@ -45,13 +45,15 @@ export default function PostItem(props) {
     }
   };
 
+  const createdAt = new Date(props.createdAt)
+
   return (
     <li className={classes.item}>
       <figure>
         <blockquote>
           <p>{props.text}</p>
         </blockquote>
-        <figcaption>{props.author}</figcaption>
+        <figcaption>{`${props.author} - ${createdAt.toLocaleDateString()}`}</figcaption>
         <p className={classes.likes}>Likes: {likedUsers.join(", ")}</p>
       </figure>
       <div className={classes.actions}>
