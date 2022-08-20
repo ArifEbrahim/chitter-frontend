@@ -9,10 +9,6 @@
   align-items: center;
 }
 
-.item:last-of-type {
-  border-bottom: none;
-}
-
 .item figure {
   width: 70%;
 }

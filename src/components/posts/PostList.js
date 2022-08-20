@@ -31,7 +31,6 @@ export default function PostList(props) {
       userId,
     };
     await likePostReq(postData);
-    // await props.getPosts();
   };
 
   const unlikePostHandler = async (postId) => {

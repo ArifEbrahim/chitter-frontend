@@ -31,23 +31,18 @@ export default function PostItem(props) {
   };
 
   const likeHandler = () => {
-    setIsPostLiked(true);
-    // if (isPostLiked) {
-
-    //   // props.onUnlike(props.id);
-    // } else {
-    // setLikedUsers((prevUsers) => {
-    //   prevUsers.unshift("You");
-    // });
-    //   // props.onLIke(props.id);
-    // }
-  };
-
-  const unlikeHandler = () => {
-    setIsPostLiked(false);
-    // setLikedUsers((prevUsers) => {
-    //   prevUsers.filter((user) => user !== "You");
-    // });
+    setIsPostLiked((prevState) => !prevState);
+    if (likedUsers.includes("You")) {
+      const updatedLikedUsersAry = likedUsers;
+      updatedLikedUsersAry.shift();
+      setLikedUsers(updatedLikedUsersAry);
+      props.onUnlike(props.id);
+    } else {
+      const updatedLikedUsersAry = likedUsers;
+      updatedLikedUsersAry.unshift("You");
+      setLikedUsers(updatedLikedUsersAry);
+      props.onLike(props.id);
+    }
   };
 
   return (
@@ -67,16 +62,12 @@ export default function PostItem(props) {
             text="Delete"
           />
         )}
-        <div className={classes.icon}>
+        <div className={classes.icon} onClick={likeHandler}>
           {isPostLiked && isLoggedIn && (
-            <div onClick={unlikeHandler}>
-              <BsHeartFill size="1.5em" color="red" />
-            </div>
+            <BsHeartFill size="1.5em" color="red" />
           )}
           {!isPostLiked && isLoggedIn && (
-            <div onClick={likeHandler}>
-              <BsHeart size="1.5em" color="darkgrey" />
-            </div>
+            <BsHeart size="1.5em" color="darkgrey" />
           )}
         </div>
       </div>
